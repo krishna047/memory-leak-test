@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: memory-increasing-pod1
+spec:
+  containers:
+  - name: memory-increasing-container1
+    image: python:3.9
+    command: ["python3", "/app/memory_increase.py"]
+    volumeMounts:
+      - name: script
+        mountPath: "/app"
+    resources:
+      limits:
+        memory: "50Mi"  # Maximum memory allowed
+        cpu: 10m
+      requests:
+        memory: "10Mi"  # Minimum memory required
+        cpu: 5m
+  volumes:
+    - name: script
+      configMap:
+        name: pyhton-scripts-cofigmap
+        defaultMode: 0500
